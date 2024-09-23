@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import * as Updates from "expo-updates";
+import OnboardingNavigator from "./navigation/OnboardingNavigator";
+import Push from "./Push-notification/PushNotificationComponent";
 
 export default function App() {
+  // useEffect(() => {
+  //   async function checkForUpdates() {
+  //     try {
+  //       const update = await Updates.checkForUpdateAsync();
+  //       if (update.isAvailable) {
+  //         await Updates.fetchUpdateAsync();
+  //         await Updates.reloadAsync();
+  //       }
+  //     } catch (e) {
+  //       console.error('Failed to check for updates:', e);
+  //     }
+  //   }
+
+  //   checkForUpdates();
+  // }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <Push />
+      <OnboardingNavigator />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
