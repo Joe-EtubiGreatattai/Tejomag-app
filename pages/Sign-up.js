@@ -280,7 +280,7 @@ export default function SignUpScreen() {
         </View>
 
         <View style={styles.content}>
-          {!isKeyboardVisible && (
+          {/* {!isKeyboardVisible && (
             <TouchableOpacity style={styles.googleButton}>
               <Image
                 source={require("../assets/google.png")}
@@ -296,7 +296,7 @@ export default function SignUpScreen() {
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>OR</Text>
             <View style={styles.dividerLine} />
-          </View>
+          </View> */}
 
           {/* Username Input */}
           <View

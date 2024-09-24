@@ -1,0 +1,194 @@
+{
+  "project_info": {
+    "project_number": "119259371504",
+    "project_id": "tejomag-1866f",
+    "storage_bucket": "tejomag-1866f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119259371504:android:b1ed72c44ea23db523ef35",
+        "android_client_info": {
+          "package_name": "Tejo.mag_100"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119259371504-gau2f2f3r1ibs0le9u7qi3hqohkh7jac.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Tejo.mag_100",
+            "certificate_hash": "90140be0305bace6651da533e55ce4cc53666361"
+          }
+        },
+        {
+          "client_id": "119259371504-mlqtpuhc00fh7b3c3mlpiailh8dl7lej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Tejo.mag_100",
+            "certificate_hash": "865cee4c7db5f6442f37d40598144da23aa20d31"
+          }
+        },
+        {
+          "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdpxB2HqjWxufh6aVpRFxxFCFVN1b5K5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "119259371504-rhvr3n5c384lq1ojpvo1pheodeo90sb5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joegreat.Market"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119259371504:android:d9c9690de066aaeb23ef35",
+        "android_client_info": {
+          "package_name": "com.etubigreat.tejomagsecond"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdpxB2HqjWxufh6aVpRFxxFCFVN1b5K5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "119259371504-rhvr3n5c384lq1ojpvo1pheodeo90sb5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joegreat.Market"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119259371504:android:ca0e31ae0eb9cee123ef35",
+        "android_client_info": {
+          "package_name": "com.joegreat.Market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119259371504-8q029cor2bc5aud4dk42eh1v4bl6e5rb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joegreat.Market",
+            "certificate_hash": "d9694d67b4789c4f1b923b0543eb4bb17a2729b7"
+          }
+        },
+        {
+          "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdpxB2HqjWxufh6aVpRFxxFCFVN1b5K5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "119259371504-rhvr3n5c384lq1ojpvo1pheodeo90sb5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joegreat.Market"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119259371504:android:0010f021a7ba820523ef35",
+        "android_client_info": {
+          "package_name": "com.joegreat.Tejomag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119259371504-4s4gtaom1uqsjdace8ujpl4vd26604fs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joegreat.Tejomag",
+            "certificate_hash": "865cee4c7db5f6442f37d40598144da23aa20d31"
+          }
+        },
+        {
+          "client_id": "119259371504-hdtpum9424b3gjf7t5lkobsbcr9d67f1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joegreat.Tejomag",
+            "certificate_hash": "90140be0305bace6651da533e55ce4cc53666361"
+          }
+        },
+        {
+          "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdpxB2HqjWxufh6aVpRFxxFCFVN1b5K5E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119259371504-v0jd65jrl4824l63g8uoqu0fsub9rn6k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "119259371504-rhvr3n5c384lq1ojpvo1pheodeo90sb5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joegreat.Market"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

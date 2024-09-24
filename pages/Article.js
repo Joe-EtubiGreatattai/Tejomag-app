@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#fff",
+    padding:16
   },
   loadingContainer: {
     flex: 1,

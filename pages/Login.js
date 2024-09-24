@@ -171,7 +171,7 @@ export default function SignInScreen() {
             </Text>
           )}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.googleButton}
             disabled={!request}
             onPress={() => {
@@ -185,15 +185,15 @@ export default function SignInScreen() {
             <Text style={styles.buttonText}>
               {translations.googleButtonText[1]}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <View style={styles.divider}>
+          {/* <View style={styles.divider}>
             <View style={styles.dividerLine} />
             <Text style={styles.dividerText}>
               {translations.dividerText[1]}
             </Text>
             <View style={styles.dividerLine} />
-          </View>
+          </View> */}
 
           <View
             style={[

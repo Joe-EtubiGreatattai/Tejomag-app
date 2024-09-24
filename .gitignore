@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+/tejomag-1866f-firebase-adminsdk-ej4fq-860caf2060.json
+
+/google-services.json
+/GoogleService-Info.plist
