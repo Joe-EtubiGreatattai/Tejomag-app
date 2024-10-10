@@ -75,7 +75,7 @@ const TopBar = ({ onCategoryChange, navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require("../assets/MAG-LOGO-MAIN_2.png")}
+          source={require("../assets/logo-blue.png")}
           style={styles.logo}
           resizeMode="contain"
         />

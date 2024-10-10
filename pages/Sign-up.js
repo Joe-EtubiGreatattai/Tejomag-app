@@ -22,12 +22,14 @@ import axios from "axios";
 import translateText from "./../ult/TranslationService";
 import * as Notifications from "expo-notifications";
 import CustomLoader from "../components/CustomLoader";
+import CustomNotification from "../components/CustomNotification";
 import Constants from "expo-constants";
 import * as Device from "expo-device";
 const DEFAULT_LANGUAGE = "pt-BR"; // Portuguese (Brazil)
 
 export default function SignUpScreen() {
   const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -40,18 +42,23 @@ export default function SignUpScreen() {
   const [statusMessage, setStatusMessage] = useState("Initializing...");
   const [notificationType, setNotificationType] = useState("");
   const [tokenError, setTokenError] = useState(null);
+  const [notification, setNotification] = useState({
+    visible: false,
+    type: '',
+    message: ''
+  });
   const [translations, setTranslations] = useState({
     usernameLabel: "Username",
+    fullNameLabel: "Full Name",
     emailLabel: "Email",
-    passwordLabel: "palavra-passe",
+    passwordLabel: "Password",
     emailError: "Please enter a valid email address.",
     passwordError: "Password must be at least 6 characters long.",
-    termsText: "Ao fazer login, concorda com os nossos Termos de Utilização e",
-    termsOfUseText: "Política",
-    privacyPolicyText: "Privacidade",
-    signUpButtonText: "Criar conta",
+    termsText: "By signing up, you agree to our Terms of Use and",
+    termsOfUseText: "Terms",
+    privacyPolicyText: "Privacy Policy",
+    signUpButtonText: "Create Account",
     signingUpButtonText: "Signing Up...",
-    continueWithGoogleText: "Continue with Google",
   });
 
   const navigation = useNavigation();
@@ -185,78 +192,66 @@ export default function SignUpScreen() {
 
     setIsLoading(true);
     try {
+      const requestData = {
+        username: username.trim(),
+        full_name: fullName.trim(),
+        email: email.trim(),
+        password: password,
+        expo_token: expoPushToken
+      };
+
       const response = await axios.post(
         "https://tejomag.com/wp-json/tejo-mag/v1/register",
-        {
-          username,
-          email,
-          password,
-          expo_token: expoPushToken,
-        }
+        requestData
       );
 
-      if (
-        response.data &&
-        response.data.user_id &&
-        response.data.username &&
-        response.data.email
-      ) {
-        await AsyncStorage.setItem("userExpoToken", response.data.expo_token);
+      console.log('API Response:', response.data); // For debugging
 
-        Alert.alert(
-          "Sign Up Successful",
-          `Your account has been created successfully, ${username}!`
-        );
-        navigation.navigate("Login");
+      if (response.data.status === 'success' && response.data.data) {
+        // Store the user token
+        await AsyncStorage.setItem("userExpoToken", response.data.data.expo_token);
+        
+        // Show success notification with the API's message
+        setNotification({
+          visible: true,
+          type: 'success',
+          message: response.data.message || `Welcome ${fullName}! Your account has been created successfully.`
+        });
+
+        // Navigate to login after a short delay
+        setTimeout(() => {
+          navigation.navigate("Login");
+        }, 2000);
       } else {
-        Alert.alert(
-          "Sign Up Failed",
-          "Unable to create an account. The server response was unexpected. Please try again or contact support."
-        );
+        // Handle unexpected success response structure
+        setNotification({
+          visible: true,
+          type: 'error',
+          message: 'Unexpected response format. Please try again.'
+        });
       }
     } catch (error) {
       console.error("Error in signUp:", error);
-
-      if (error.response) {
-        let errorMessage = "Sign Up Failed";
-        let detailsMessage = "";
-
-        if (error.response.data && error.response.data.errors) {
-          errorMessage += ": ";
-          if (typeof error.response.data.errors === "object") {
-            Object.keys(error.response.data.errors).forEach((key) => {
-              detailsMessage += `${key}: ${error.response.data.errors[key]}\n`;
-            });
-          } else if (Array.isArray(error.response.data.errors)) {
-            detailsMessage = error.response.data.errors.join("\n");
-          } else {
-            detailsMessage = error.response.data.errors.toString();
-          }
-        } else if (error.response.data && error.response.data.message) {
-          detailsMessage = error.response.data.message;
-        } else {
-          errorMessage += `: HTTP Error ${error.response.status}`;
-          detailsMessage = `Status: ${error.response.statusText}\nPlease try again later or contact support if the problem persists.`;
-        }
-
-        Alert.alert(errorMessage, detailsMessage);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-        Alert.alert(
-          "Network Error",
-          "No response received from the server. Please check your internet connection and try again."
-        );
-      } else {
-        console.error("Error occurred in request setup:", error.message);
-        Alert.alert(
-          "Unexpected Error",
-          `An unexpected error occurred while signing up: ${error.message}\nPlease try again or contact support if the problem persists.`
-        );
-      }
+      
+      // Handle API error response
+      const errorMessage = error.response?.data?.message || 
+        'An error occurred while creating your account. Please try again.';
+      
+      setNotification({
+        visible: true,
+        type: 'error',
+        message: errorMessage
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Add a function to handle notification dismissal
+  const handleNotificationDismiss = () => {
+    setNotification(prev => ({ ...prev, visible: false }));
+  };
+
 
   if (!fontsLoaded || isLoading) {
     return (
@@ -265,10 +260,15 @@ export default function SignUpScreen() {
       </SafeAreaView>
     );
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <CustomNotification
+        visible={notification.visible}
+        type={notification.type}
+        message={notification.message}
+        onHide={handleNotificationDismiss}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
@@ -326,6 +326,39 @@ export default function SignUpScreen() {
               />
               {username !== "" && (
                 <TouchableOpacity onPress={() => setUsername("")}>
+                  <Ionicons name="close-circle" size={24} color="gray" />
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+          {/* full name Input */}
+          <View
+            style={[
+              styles.inputContainer,
+              fullName !== "" && styles.inputContainerActive,
+            ]}
+          >
+            {fullName === "" && (
+              <Text style={styles.labelText}>{translations.fullNameLabel}</Text>
+            )}
+            <View style={styles.inputContainerSub}>
+              <Ionicons
+                name="person-outline"
+                size={24}
+                color="gray"
+                style={styles.inputIcon}
+              />
+              <TextInput
+                style={[styles.input]}
+                placeholder={translations.fullNameLabel}
+                value={fullName}
+                onChangeText={setFullName}
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setIsInputFocused(false)}
+                autoCapitalize="none"
+              />
+              {fullName !== "" && (
+                <TouchableOpacity onPress={() => setFullName("")}>
                   <Ionicons name="close-circle" size={24} color="gray" />
                 </TouchableOpacity>
               )}
@@ -463,8 +496,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 16,
-    marginTop: 30,
+    paddingLeft: 16,
+    marginTop: 1,
     backgroundColor: "#fff",
     zIndex: 999,
   },
@@ -477,7 +510,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     gap: 20,
     justifyContent: "center",
-    paddingVertical: 24,
+    paddingTop: 44,
     marginTop: 70,
   },
   title: {

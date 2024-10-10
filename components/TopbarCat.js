@@ -8,7 +8,6 @@ import {
   Modal,
   Pressable,
   Dimensions,
-  Platform
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -45,7 +44,7 @@ const TopBar = () => {
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <Image
-          source={require("../assets/MAG-LOGO-MAIN_2.png")}
+          source={require("../assets/logo-blue.png")}
           style={styles.logo}
           resizeMode="contain"
         />

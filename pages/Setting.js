@@ -21,11 +21,12 @@ import { useAuth } from "./../navigation/OnboardingNavigator";
 import axios from "axios";
 
 const SettingsPage = () => {
-  const [notifications, setNotifications] = useState(true);
+  const [notifications, setNotifications] = useState(false);
   const [email, setEmail] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [translatedTexts, setTranslatedTexts] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [bearerToken, setBearerToken] = useState("");
   const navigation = useNavigation();
   const { logout } = useAuth();
 
@@ -41,53 +42,103 @@ const SettingsPage = () => {
   }, [fontsLoaded]);
 
   useEffect(() => {
-    const fetchUserEmail = async () => {
+    const getToken = async () => {
       try {
-        const userInfo = await AsyncStorage.getItem("userInfo");
-        if (userInfo) {
-          const user = JSON.parse(userInfo);
-          setEmail(user.email || "");
+        const token = await AsyncStorage.getItem("userToken");
+        if (token) {
+          setBearerToken(token);
+        } else {
+          console.error("No token found");
+          Alert.alert("Error", "Authentication token not available.");
         }
       } catch (error) {
-        console.error("Error fetching user email:", error);
+        console.error("Error retrieving token:", error);
+        Alert.alert("Error", "Authentication token not available.");
       }
     };
 
-    const translateContent = async () => {
-      const keysToTranslate = [
-        "Your Info",
-        "Logout",
-        "Settings",
-        "Notifications",
-        "Language",
-        "Notification Preferences",
-        "Legal",
-        "Terms of Use & Privacy Policy",
-        "About",
-      ];
-
-      const translations = {};
-      for (let key of keysToTranslate) {
-        translations[key] = await translateText(key);
-      }
-      setTranslatedTexts(translations);
-    };
-
-    const loadNotificationState = async () => {
-      try {
-        const savedState = await AsyncStorage.getItem('notificationState');
-        if (savedState !== null) {
-          setNotifications(JSON.parse(savedState));
-        }
-      } catch (error) {
-        console.error("Error loading notification state:", error);
-      }
-    };
-
-    fetchUserEmail();
-    translateContent();
-    loadNotificationState();
+    getToken();
   }, []);
+
+  useEffect(() => {
+    const initializeSettings = async () => {
+      try {
+        await fetchUserEmail();
+        await translateContent();
+        if (bearerToken) {
+          await fetchNotificationStatus();
+        }
+      } catch (error) {
+        console.error("Error initializing settings:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeSettings();
+  }, [bearerToken]);
+
+  const fetchUserEmail = async () => {
+    try {
+      const userInfo = await AsyncStorage.getItem("userInfo");
+      if (userInfo) {
+        const user = JSON.parse(userInfo);
+        setEmail(user.email || "");
+      }
+    } catch (error) {
+      console.error("Error fetching user email:", error);
+    }
+  };
+
+  const translateContent = async () => {
+    const keysToTranslate = [
+      "Your Info",
+      "Logout",
+      "Settings",
+      "Notifications",
+      "Language",
+      "Notification Preferences",
+      "Legal",
+      "Terms of Use & Privacy Policy",
+      "About",
+    ];
+
+    const translations = {};
+    for (let key of keysToTranslate) {
+      translations[key] = await translateText(key);
+    }
+    setTranslatedTexts(translations);
+  };
+
+  const fetchNotificationStatus = async () => {
+    try {
+      const userExpoToken = await AsyncStorage.getItem("userExpoToken");
+      if (!userExpoToken) {
+        throw new Error("User Expo token not found");
+      }
+
+      const response = await axios.get(
+        `https://tejomag.com/wp-json/tejo-mag/v1/notification?expo_token=${userExpoToken}`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        }
+      );
+
+      if (response.data.status === "success") {
+        setNotifications(response.data.data.status === "true");
+      } else {
+        throw new Error("Failed to fetch notification status");
+      }
+    } catch (error) {
+      console.error("Error fetching notification status:", error);
+      Alert.alert(
+        "Error",
+        "Failed to fetch notification status. Please try again later."
+      );
+    }
+  };
 
   const handleLogout = async () => {
     logout();
@@ -117,10 +168,9 @@ const SettingsPage = () => {
   const updateNotificationStatus = async (newValue) => {
     setIsLoading(true);
     try {
-      const userToken = await AsyncStorage.getItem("userToken");
       const userExpoToken = await AsyncStorage.getItem("userExpoToken");
 
-      if (!userToken || !userExpoToken) {
+      if (!bearerToken || !userExpoToken) {
         throw new Error("User token or Expo token not found");
       }
 
@@ -134,7 +184,7 @@ const SettingsPage = () => {
         apiData,
         {
           headers: {
-            Authorization: `Bearer ${userToken}`,
+            Authorization: `Bearer ${bearerToken}`,
             "Content-Type": "application/json",
           },
         }
@@ -149,7 +199,6 @@ const SettingsPage = () => {
           );
         } else {
           setNotifications(newValue);
-          await AsyncStorage.setItem('notificationState', JSON.stringify(newValue));
           Alert.alert(
             "Success",
             `Your notification settings have been updated. Notifications are now ${newValue ? "on" : "off"}.`,
@@ -177,8 +226,12 @@ const SettingsPage = () => {
     }
   };
 
-  if (!fontsLoaded) {
-    return null;
+  if (!fontsLoaded || isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#1976d2" />
+      </View>
+    );
   }
 
   return (
@@ -355,6 +408,11 @@ const styles = StyleSheet.create({
   settingText: {
     fontSize: 16,
     marginLeft: 10,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

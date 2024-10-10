@@ -19,7 +19,7 @@ const CustomLoader = ({ text }) => {
     <View style={styles.container}>
       <animated.View style={[styles.logoContainer, pulseAnimation]}>
         <Image
-          source={require('../assets/appstore.png')}
+          source={require('../assets/logo-blue.png')}
           style={styles.logo}
         />
       </animated.View>
@@ -42,8 +42,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
+    objectFit:'contain'
   },
   text: {
     marginTop: 20,

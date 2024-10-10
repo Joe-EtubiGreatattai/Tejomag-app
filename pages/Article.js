@@ -105,6 +105,7 @@ const Article = () => {
         return <NewsLetter />;
       case 'comments':
         return <CommentSection comments={item.comments} />;
+        
       default:
         return null;
     }
@@ -132,14 +133,28 @@ const Article = () => {
         excerpt: post.excerpt || "",
         permalink: post.permalink || "#",
       },
+      
       { type: 'content', content: post.content || "<p>No Content Available</p>" },
+      { type: 'comments', comments },
+      { type: 'newsletter' },
       { type: 'video', videoUrl },
       { type: 'slider', sliderImages },
       { type: 'related', relatedPosts },
-      { type: 'newsletter' },
-      { type: 'comments', comments },
     ];
   }, [postData, relatedPosts, comments]);
+
+  const handleCommentFocus = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      setTimeout(() => {
+        if (comments.length > 0 && !comments[comments.length - 1].focused) {
+          setComments(prevComments => [...prevComments, { ...comments[prevComments.length - 1], focused: true }]);
+        }
+      }, 100);
+    } else {
+      // Android doesn't need this delay
+      setComments(prevComments => [...prevComments, { ...comments[prevComments.length - 1], focused: true }]);
+    }
+  }, [comments]);
 
   if (loading) {
     return (
@@ -163,10 +178,7 @@ const Article = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+ 
       <SafeAreaView style={styles.container}>
         <Header />
         <FlatList
@@ -179,9 +191,9 @@ const Article = () => {
           maxToRenderPerBatch={1}
           updateCellsBatchingPeriod={100}
           windowSize={7}
+          onLayout={() => handleCommentFocus()}
         />
       </SafeAreaView>
-    </KeyboardAvoidingView>
   );
 };
 

@@ -116,6 +116,7 @@ function AppNavigator() {
           </>
         ) : (
           <>
+          
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignInScreen} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

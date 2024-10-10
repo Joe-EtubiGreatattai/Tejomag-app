@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CommentInput = ({ onCommentSubmit }) => {
   const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
   const route = useRoute();
   const { id: postId } = route.params;
@@ -33,10 +33,8 @@ const CommentInput = ({ onCommentSubmit }) => {
 
   const handleSubmit = async () => {
     if (comment.trim() && bearerToken) {
-      setLoading(true); // Set loading to true when starting submission
+      setLoading(true);
       try {
-        // Log the token being used
-
         const response = await fetch(
           "https://tejomag.com/wp-json/tejo-mag/v1/post-comment",
           {
@@ -51,8 +49,7 @@ const CommentInput = ({ onCommentSubmit }) => {
             }),
           }
         );
-  
-        // Detailed error logging
+
         if (!response.ok) {
           const errorData = await response.json();
           console.error(`Network response was not ok: ${response.status} ${response.statusText}`);
@@ -63,12 +60,12 @@ const CommentInput = ({ onCommentSubmit }) => {
           );
           return;
         }
-  
+
         const data = await response.json();
        
         onCommentSubmit({
           comment_ID: data.comment_ID,
-          comment_author: "You", // Assuming 'You' as author, adjust as needed
+          comment_author: "You",
           comment_date: new Date().toISOString(),
           comment_content: comment,
         });
@@ -81,7 +78,7 @@ const CommentInput = ({ onCommentSubmit }) => {
           "Failed to submit comment. Please try again later."
         );
       } finally {
-        setLoading(false); // Set loading to false when submission is done
+        setLoading(false);
       }
     } else if (!bearerToken) {
       Alert.alert("Error", "Authentication token not available.");
@@ -90,14 +87,17 @@ const CommentInput = ({ onCommentSubmit }) => {
     }
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View
         style={[
           styles.inputContainer,
-          comment && { backgroundColor: "#e0e0e0" }, // Darker background if comment exists
+          comment && { backgroundColor: "#e0e0e0" },
         ]}
-        onTouchStart={() => inputRef.current?.focus()} // Focus on input when container is clicked
       >
         <TextInput
           ref={inputRef}
