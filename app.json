@@ -14,26 +14,21 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": [
-          "fetch",
-          "remote-notification"
-        ],
+        "UIBackgroundModes": ["fetch", "remote-notification"],
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
         },
         "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
       },
       "bundleIdentifier": "com.etubigreat.tejomagsecond",
-        "googleServicesFile": "./GoogleService-Info.plist",
-        "useFrameworks": "static"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "useFrameworks": "static"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/playstore.png",
         "backgroundColor": "#333333",
-        "permissions": [
-          "NOTIFICATIONS"
-        ]
+        "permissions": ["NOTIFICATIONS"]
       },
       "package": "com.etubigreat.tejomagsecond",
       "googleServicesFile": "./google-services.json"
@@ -42,7 +37,27 @@
       "favicon": "./assets/playstore.png"
     },
     "plugins": [
-      "expo-font"
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
+      ],
+      "expo-font",
+      "expo-notifications",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          },
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "scheme": "tejomag-second",
     "updates": {
