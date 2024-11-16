@@ -2,9 +2,9 @@
   "expo": {
     "name": "Tejomag",
     "slug": "tejomag-second",
-    "version": "1.1.0",
+    "version": "1.9.0",
     "orientation": "portrait",
-    "icon": "./assets/app-icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -24,8 +24,8 @@
         "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
       },
       "bundleIdentifier": "com.etubigreat.tejomagsecond",
-        "googleServicesFile": "./GoogleService-Info.plist",
-        "useFrameworks": "static"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "useFrameworks": "static"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,7 +42,8 @@
       "favicon": "./assets/playstore.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-tracking-transparency"
     ],
     "scheme": "tejomag-second",
     "updates": {
