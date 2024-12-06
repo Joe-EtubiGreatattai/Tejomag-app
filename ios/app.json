@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "d023a30b-7090-47c3-afd1-49c4f472c4d9"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.etubigreat.tejomag"
+    }
+  }
+}
